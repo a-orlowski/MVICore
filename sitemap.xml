@@ -96,17 +96,22 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://badoo.github.io/MVICore/extras/modelwatcher/</loc>
+     <lastmod>2019-07-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://badoo.github.io/MVICore/extras/ttdui/</loc>
      <lastmod>2019-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://badoo.github.io/MVICore/extras/intellijplugin/</loc>
+     <loc>https://badoo.github.io/MVICore/extras/templategeneratorplugin/</loc>
      <lastmod>2019-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://badoo.github.io/MVICore/extras/modelwatcher/</loc>
+     <loc>https://badoo.github.io/MVICore/extras/inspectorplugin/</loc>
      <lastmod>2019-07-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
