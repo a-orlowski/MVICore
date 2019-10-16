@@ -51,6 +51,49 @@ For example, if the click listener should not be set when something is loading, 
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div></p>
+<p>Models based on the sealed classes are supported with <code class="codehilite"><span class="k">type</span></code> and <code class="codehilite"><span class="n">objectType</span></code> functions.
+<div class="codehilite"><pre><span></span><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Model</span> <span class="p">{</span>
+    <span class="k">data</span> <span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="k">val</span> <span class="py">list</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;):</span> <span class="n">Model</span><span class="p">()</span>
+    <span class="k">object</span> <span class="nc">B</span> <span class="p">:</span> <span class="n">Model</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="k">val</span> <span class="py">watcher</span> <span class="p">=</span> <span class="n">modelWatcher</span><span class="p">&lt;</span><span class="n">Model</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="p">{</span>
+        <span class="n">watch</span><span class="p">(</span><span class="n">Model</span><span class="p">.</span><span class="n">A</span><span class="o">::</span><span class="n">list</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">objectType</span><span class="p">&lt;</span><span class="n">B</span><span class="p">&gt;</span> <span class="p">{</span> <span class="n">modelB</span> <span class="p">-&gt;</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Subsequent definitions of the same type will override previous ones.</p>
+</div>
+<p>If sealed class has a common property defined in the base class, its changes can be observed as well.
+In the example below, <code class="codehilite"><span class="n">Model</span><span class="p">::</span><span class="n">list</span></code> selector is triggered when the property is changed independently on model type.
+<div class="codehilite"><pre><span></span><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Model</span> <span class="p">{</span>
+    <span class="k">abstract</span> <span class="k">val</span> <span class="py">list</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span>
+
+    <span class="k">data</span> <span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="k">val</span> <span class="py">list</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;):</span> <span class="n">Model</span><span class="p">()</span>
+    <span class="k">object</span> <span class="nc">B</span> <span class="p">:</span> <span class="n">Model</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">override</span> <span class="k">val</span> <span class="py">list</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">emptyList</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">val</span> <span class="py">watcher</span> <span class="p">=</span> <span class="n">modelWatcher</span><span class="p">&lt;</span><span class="n">Model</span><span class="p">&gt;</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="p">{</span>
+        <span class="n">watch</span><span class="p">(</span><span class="n">Model</span><span class="p">.</span><span class="n">A</span><span class="o">::</span><span class="n">list</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="c1">// Property of Model.A only</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">watch</span><span class="p">(</span><span class="n">Model</span><span class="o">::</span><span class="n">list</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Common property</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></p>
 <p>The watcher also provides an optional DSL to add more clarity to the definitions:
 <div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">watcher</span> <span class="p">=</span> <span class="n">modelWatcher</span><span class="p">&lt;</span><span class="n">ViewModel</span><span class="p">&gt;</span> <span class="p">{</span>
     <span class="c1">// Method call</span>
