@@ -30,6 +30,7 @@ android {
 
 dependencies {
     // MVICore
+    implementation project(":binder")
     implementation project(":mvicore")
     implementation project(":mvicore-android")
     implementation project(":mvicore-debugdrawer")
